@@ -212,6 +212,14 @@ class __HeaderState extends State<_Header> {
                 fadeDirection: FadeDirection.topToBottom,
                 child: logo,
               ),
+
+            if (!displayLogo)
+            FadeIn(
+              controller: widget.titleController,
+              offset: .5,
+              fadeDirection: FadeDirection.topToBottom,
+              child: title,
+            ),
           ],
         ),
       ),
@@ -657,11 +665,17 @@ class _FlutterLoginState extends State<FlutterLogin>
                         hideProvidersTitle: widget.hideProvidersTitle,
                       ),
                     ),
+                    if (widget.logo == null)
                     Positioned(
-                      left: deviceSize.width / 2 + widget.centreOffset,
                       top: cardTopPosition - headerHeight - headerMargin,
                       child: _buildHeader(headerHeight, loginTheme),
                     ),
+                    if (widget.logo != null)
+                      Positioned(
+                        left: deviceSize.width / 2 + widget.centreOffset,
+                        top: cardTopPosition - headerHeight - headerMargin,
+                        child: _buildHeader(headerHeight, loginTheme),
+                      ),
                   ],
                 ),
               ),
