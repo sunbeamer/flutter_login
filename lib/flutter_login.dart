@@ -214,12 +214,12 @@ class __HeaderState extends State<_Header> {
               ),
 
             if (!displayLogo)
-            FadeIn(
-              controller: widget.titleController,
-              offset: .5,
-              fadeDirection: FadeDirection.topToBottom,
-              child: title,
-            ),
+              FadeIn(
+                controller: widget.titleController,
+                offset: .5,
+                fadeDirection: FadeDirection.topToBottom,
+                child: title,
+              ),
           ],
         ),
       ),
