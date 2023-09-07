@@ -148,7 +148,7 @@ class __HeaderState extends State<_Header> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    const gap = 5.0;
+    const gap = 0.0;
     final logoHeight = min(
         (widget.height - MediaQuery.of(context).padding.top) -
             _titleHeight -
@@ -187,11 +187,17 @@ class __HeaderState extends State<_Header> {
       title = Text(
         widget.title!,
         key: kTitleKey,
-        style: theme.textTheme.headline3,
+        style: theme.textTheme.headline3?.merge(TextStyle(
+          fontFamily: 'Ubuntu',
+          fontWeight: FontWeight.bold,
+        ),
+        ),
       );
     } else {
       title = null;
     }
+
+
 
     return SafeArea(
       child: SizedBox(
@@ -206,13 +212,6 @@ class __HeaderState extends State<_Header> {
                 fadeDirection: FadeDirection.topToBottom,
                 child: logo,
               ),
-            SizedBox(height: gap),
-            FadeIn(
-              controller: widget.titleController,
-              offset: .5,
-              fadeDirection: FadeDirection.topToBottom,
-              child: title,
-            ),
           ],
         ),
       ),
@@ -228,6 +227,7 @@ class FlutterLogin extends StatefulWidget {
       required this.onRecoverPassword,
       this.title,
       this.logo,
+      this.centreOffset = 0,
       this.messages,
       this.theme,
       this.userValidator,
@@ -268,6 +268,9 @@ class FlutterLogin extends StatefulWidget {
 
   /// The path to the asset image that will be passed to the `Image.asset()`
   final String? logo;
+
+  /// Horzontal adjustment to visually centre the header (ie the logo)
+  final double centreOffset;
 
   /// Describes all of the labels, text hints, button texts and other auth
   /// descriptions
@@ -582,9 +585,9 @@ class _FlutterLoginState extends State<FlutterLogin>
     final loginTheme = widget.theme ?? LoginTheme();
     final theme = _mergeTheme(theme: Theme.of(context), loginTheme: loginTheme);
     final deviceSize = MediaQuery.of(context).size;
-    const headerMargin = 15;
+    const headerMargin = 0;
     const cardInitialHeight = 300;
-    final cardTopPosition = deviceSize.height / 2 - cardInitialHeight / 2;
+    final cardTopPosition = deviceSize.height / 2 - cardInitialHeight / 2 + (deviceSize.height / 15);
     final headerHeight = cardTopPosition - headerMargin;
     final userValidator =
         widget.userValidator ?? FlutterLogin.defaultEmailValidator;
@@ -655,13 +658,10 @@ class _FlutterLoginState extends State<FlutterLogin>
                       ),
                     ),
                     Positioned(
+                      left: deviceSize.width / 2 + widget.centreOffset,
                       top: cardTopPosition - headerHeight - headerMargin,
                       child: _buildHeader(headerHeight, loginTheme),
                     ),
-                    Positioned.fill(
-                        child: Align(
-                            alignment: Alignment.bottomCenter,
-                            child: footerWidget))
                   ],
                 ),
               ),
